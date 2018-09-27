@@ -1,36 +1,62 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Row, Col } from 'react-flexbox-grid';
+import Button from 'material-ui/RaisedButton';
+import { actions } from '../../reducers/session-reducer';
 
-const MyHome = ({ addresses, cities }) => (
-  <div style={{ padding: '20px' }} id="my-home-page">
-    <h2>My Home</h2>
-    <br />
-    <br />
-    Address: { (addresses && addresses.length > 0) ? addresses[0] : 'Unknown address.'}<br />
-    City: { (cities && cities.length > 0) ? cities[0] : 'Unknown city.'}<br />
-    <br />
-    <Row center="xs">
-      <Col xs>
-        <img src="/api/images/address.jpg" alt="Your house on the map" />
+
+class MyHome extends Component {
+
+  render() {
+    const { over18s, photos, deauthenticate } = this.props;
+
+    return (
+      <div style={{ padding: '20px' }} id="my-home-page">
+        <h2>Scanresultaat</h2>
+        <Row start="xs" xs={1}>
         <br />
-      </Col>
-    </Row>
-  </div>
-);
+        <br />
+          <Col xs={4}>
+            Ouder dan 18: { (over18s && over18s.length > 0) ? over18s[0] : 'Leeftijd niet vrijgegeven.'}<br />
+          </Col>
+        <br />
+          <Col xs={4}>
+            <img src={ (photos && photos.length > 0) ? "data:image/jpeg;base64," + photos[0] : undefined } width="200px" alt="Your photo" />
+            <br />
+          </Col>
+        </Row>
+        <br />
+        <br />
+        <Row xs={4}>
+          <Button onClick={deauthenticate} style={ {minWidth: 450} }>
+            Volgende klant
+          </Button>  
+        </Row>
+      </div>
+    );
+  }
+}
 
 MyHome.propTypes = {
-  addresses: PropTypes.arrayOf(PropTypes.string).isRequired,
-  cities: PropTypes.arrayOf(PropTypes.string).isRequired,
+  over18s: PropTypes.arrayOf(PropTypes.string).isRequired,
+  photos: PropTypes.arrayOf(PropTypes.string).isRequired,
+  deauthenticate: PropTypes.func,
 };
 
 function mapStateToProps(state) {
   const { session } = state;
   return {
-    addresses: session.attributes['irma-demo.MijnOverheid.address.street'],
-    cities: session.attributes['irma-demo.MijnOverheid.address.city'],
+    over18s: session.attributes['irma-demo.MijnOverheid.ageLower.over18'],
+    photos: session.attributes['irma-demo.irmages.photos.photo'],
   };
-}
+} 
 
-export default connect(mapStateToProps)(MyHome);
+const mapDispatchToProps = {
+  getSessionData: actions.getSessionData,
+  deauthenticate: actions.deauthenticate
+
+};
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(MyHome);

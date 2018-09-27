@@ -75,7 +75,7 @@ class App extends Component {
       <BrowserRouter>
         <div>
           <AppBar
-            title="DIVA 3rd party reference implementation"
+            title="Het Amsterdammertje: Onder de 18 geen druppel."
             iconElementRight={<RightMenu />}
           />
           { sessionId && (
@@ -94,11 +94,11 @@ class App extends Component {
                         attributes,
                         [
                           {
-                            label: 'Address',
-                            attributes: ['irma-demo.MijnOverheid.address.street'],
+                            label: 'Ouder dan 18',
+                            attributes: ['irma-demo.MijnOverheid.ageLower.over18'],
                           }, {
-                            label: 'City',
-                            attributes: ['irma-demo.MijnOverheid.address.city'],
+                            label: 'Pasfoto',
+                            attributes: ['irma-demo.irmages.photos.photo'],
                           },
                         ],
                         'my-home-disclose',
@@ -124,10 +124,6 @@ class App extends Component {
                       )(IssueEanPage)}
                     />
                   </Paper>
-                </Col>
-
-                <Col xs={12} sm={3}>
-                  <UserInfo />
                 </Col>
               </Row>
             </Grid>
