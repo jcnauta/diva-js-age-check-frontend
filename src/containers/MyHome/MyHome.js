@@ -5,6 +5,12 @@ import { Row, Col } from 'react-flexbox-grid';
 import Button from 'material-ui/RaisedButton';
 import { actions } from '../../reducers/session-reducer';
 
+const centerStyle = {
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'center',
+  alignItems: 'center'
+}
 
 class MyHome extends Component {
 
@@ -28,8 +34,8 @@ class MyHome extends Component {
         </Row>
         <br />
         <br />
-        <Row xs={4}>
-          <Button onClick={deauthenticate} style={ {minWidth: 450} }>
+        <Row xs={4} style={ centerStyle }>
+          <Button onClick={deauthenticate} style={ {minWidth: 450, display: 'flex', align: 'center'} }>
             Volgende klant
           </Button>  
         </Row>
@@ -41,7 +47,7 @@ class MyHome extends Component {
 MyHome.propTypes = {
   over18s: PropTypes.arrayOf(PropTypes.string).isRequired,
   photos: PropTypes.arrayOf(PropTypes.string).isRequired,
-  deauthenticate: PropTypes.func,
+  deauthenticate: PropTypes.func.isRequired,
 };
 
 function mapStateToProps(state) {

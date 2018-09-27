@@ -9,6 +9,7 @@ import IconButton from 'material-ui/IconButton';
 import IconSocialPerson from 'material-ui/svg-icons/social/person';
 import MenuItem from 'material-ui/MenuItem';
 import { Grid, Row, Col } from 'react-flexbox-grid';
+import * as Colors from 'material-ui/styles/colors';
 
 import { WithSimpleDivaAuthorization, WithDivaAuthorization } from 'diva-react';
 
@@ -28,10 +29,19 @@ import { actions } from '../../reducers/session-reducer';
 
 const styles = {
   main: {
-    minHeight: 200,
-    margin: 20,
+    height: 'calc(100vh - 128px)',
+    maxWidth: 800,
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center'
   },
 };
+
+const titleStyle = {
+  backgroundColor: Colors.darkBlack,
+  textAlign: 'center'
+};
+
 
 class App extends Component {
   componentDidMount() {
@@ -49,48 +59,18 @@ class App extends Component {
       error,
     } = this.props;
 
-    const RightMenu = () => (
-      <IconMenu
-        id="user-menu"
-        iconButtonElement={
-          <IconButton id="navbar-user-icon">
-            <IconSocialPerson style={{ color: 'red' }} />
-          </IconButton>
-        }
-        targetOrigin={{ horizontal: 'right', vertical: 'top' }}
-        anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
-      >
-        <Link to="/">
-          <MenuItem primaryText="About" />
-        </Link>
-        <MenuItem
-          primaryText="Clear session"
-          id="deauthenticate-button"
-          onClick={() => this.deauthenticate()}
-        />
-      </IconMenu>
-    );
-
     return (
       <BrowserRouter>
-        <div>
-          <AppBar
-            title="Het Amsterdammertje: Onder de 18 geen druppel."
-            iconElementRight={<RightMenu />}
-          />
-          { sessionId && (
-            <Grid fluid>
-              <Row>
-                <Col xs={12} sm={3}>
-                  <SideMenu />
-                </Col>
+        <div className="App">
+          <AppBar title="Het Amsterdammertje: onder de 18 geen druppel." style={titleStyle} showMenuIconButton={false}>
+          </AppBar>
 
+          { sessionId && (
+            <Grid fluid style={styles.main} id="main-content">
+              <Row>
                 <Col xs>
-                  <Paper style={styles.main} id="main-content">
-                    <Route exact path="/" component={Home} />
-                    <Route
-                      path="/my-home"
-                      component={WithDivaAuthorization(
+                  <Paper style={{minHeight: '550px'}}>
+                    <Route exact path="/" component={WithDivaAuthorization(
                         attributes,
                         [
                           {
@@ -102,8 +82,7 @@ class App extends Component {
                           },
                         ],
                         'my-home-disclose',
-                      )(MyHome)}
-                    />
+                      )(MyHome)} />
                     <Route path="/my-account" component={WithSimpleDivaAuthorization(attributes, 'pbdf.pbdf.email.email', 'Email')(MyAccount)} />
                     <Route path="/sign" component={SignPage} />
                     <Route path="/issue" component={IssueCredentialsPage} />
