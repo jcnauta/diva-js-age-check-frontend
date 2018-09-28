@@ -27,6 +27,7 @@ import './App.css';
 
 import { actions } from '../../reducers/session-reducer';
 
+
 const styles = {
   main: {
     height: 'calc(100vh - 128px)',
@@ -39,7 +40,7 @@ const styles = {
 
 const titleStyle = {
   backgroundColor: Colors.darkBlack,
-  textAlign: 'center'
+  textAlign: 'center',
 };
 
 
@@ -69,7 +70,7 @@ class App extends Component {
             <Grid fluid style={styles.main} id="main-content">
               <Row>
                 <Col xs>
-                  <Paper style={{minHeight: '550px'}}>
+                  <Paper style={{minHeight: '400px', backgroundColor: 'rgba(255,255,255,0.0'}}>
                     <Route exact path="/" component={WithDivaAuthorization(
                         attributes,
                         [

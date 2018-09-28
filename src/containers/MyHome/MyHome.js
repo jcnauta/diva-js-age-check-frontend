@@ -9,7 +9,7 @@ const centerStyle = {
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'center',
-  alignItems: 'center'
+  alignItems: 'center',
 }
 
 class MyHome extends Component {
@@ -17,25 +17,27 @@ class MyHome extends Component {
   render() {
     const { over18s, photos, deauthenticate } = this.props;
 
+    const isEighteen = over18s && over18s.length > 0 && over18s[0] === 'yes';
+
     return (
-      <div style={{ padding: '20px' }} id="my-home-page">
+      <div style={{ padding: '20px', backgroundColor: isEighteen ? 'rgba(255, 255, 255, 0.8)' : 'rgba(200, 0, 0, 0.8)' }}  id="my-home-page">
         <h2>Scanresultaat</h2>
-        <Row start="xs" xs={1}>
+        <Row start="xs" xs={1} style={ {display: 'flex', justifyContent: 'center'} }>
         <br />
         <br />
-          <Col xs={4}>
-            Ouder dan 18: { (over18s && over18s.length > 0) ? over18s[0] : 'Leeftijd niet vrijgegeven.'}<br />
+          <Col xs={2} />
+          <Col xs={4} style={{fontSize: '28px', paddingTop: '30px'}}>
+            { isEighteen ? <div>Klant meerderjarig <img src="check.png" height="200"/></div> : (!over18s || over18s.length === 0 ? 'Leeftijd niet vastgesteld' : 'Klant minderjarig')}
           </Col>
-        <br />
           <Col xs={4}>
-            <img src={ (photos && photos.length > 0) ? "data:image/jpeg;base64," + photos[0] : undefined } width="200px" alt="Your photo" />
+            <img src={ (photos && photos.length > 0) ? "data:image/jpeg;base64," + photos[0] : undefined } width="200px" style={centerStyle} />
             <br />
           </Col>
         </Row>
         <br />
         <br />
-        <Row xs={4} style={ centerStyle }>
-          <Button onClick={deauthenticate} style={ {minWidth: 450, display: 'flex', align: 'center'} }>
+        <Row xs={4} style={ {padding: '40px', ...centerStyle} }>
+          <Button onClick={deauthenticate} style={ {minWidth: '300px',...centerStyle} }>
             Volgende klant
           </Button>  
         </Row>
